@@ -18,7 +18,7 @@ app.get("/users", (req: Request ,res: Response) => {
     }]
 
     res.send(usuarios)
-})
+});
 
 app.listen(3001, () => {
     console.log("O Servidor está ativo!!");
