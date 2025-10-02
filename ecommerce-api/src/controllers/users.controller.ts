@@ -28,7 +28,7 @@ export class UsersController {
             ...doc.data()
         });
     }
-
+ 
     static async create (req: Request, res: Response)  {
         let user = req.body;
         await getFirestore().collection("users").add(user)
@@ -37,12 +37,15 @@ export class UsersController {
         })
     }
 
-    static update (req: Request, res: Response) {
-        let userId = Number(req.params.id);
-        let user = req.body;
-        let indexOf = usuarios.findIndex((_user: User) => _user.id === userId);
-        usuarios[indexOf].name = user.name;
-        usuarios[indexOf].email = user.email;
+    static  update (req: Request, res: Response) {
+        let userId = req.params.id;
+        let user = req.body as User;
+
+        getFirestore().collection("users").doc(userId).set({
+            nome: user.name,
+            email: user.email
+        });
+
         res.send({
             message: "Usuario alterado com sucesso!"
         });
