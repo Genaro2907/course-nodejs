@@ -30,10 +30,11 @@ export class UsersController {
  
     static async create (req: Request, res: Response)  {
         let user = req.body;
-        await getFirestore().collection("users").add(user)
-        res.send({
+        await getFirestore().collection("users").add(user);
+
+        res.status(201).send({
             message: "Usuário criado com sucesso!"
-        })
+        });
     }
 
     static  update (req: Request, res: Response) {
@@ -52,9 +53,8 @@ export class UsersController {
 
     static async delete  (req: Request, res: Response)  {
         let userId = req.params.id;
-        await getFirestore().collection("users").doc(userId).delete()
-        res.send({
-            message: "Usuario excluido com sucesso!"
-        })
+        await getFirestore().collection("users").doc(userId).delete();
+
+        res.status(204).end();
     }
 }
