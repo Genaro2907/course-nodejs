@@ -1,10 +1,10 @@
-import express from "express";
+import { Router } from "express";
 import { UsersController } from "../controllers/users.controller";
 import asyncHandler from "express-async-handler"
 import { celebrate, Segments } from "celebrate";
 import { userSchema } from "../models/user.model.";
 
-export const userRouter = express.Router();
+export const userRouter = Router();
 
 userRouter.get("/users",asyncHandler( UsersController.getAll));
 userRouter.get("/users/:id", asyncHandler(UsersController.getById));
