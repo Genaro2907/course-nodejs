@@ -1,52 +1,43 @@
-import { getFirestore } from "firebase-admin/firestore";
 import { User } from "../models/user.model.";
 import { NotFoundError } from "../errors/not-found.error";
+import { UserRepository } from "../repositories/user.repository";
 
 export class UserService {
 
+    private userRepository: UserRepository;
+
+    constructor() {
+        this.userRepository = new UserRepository();
+    }
+
     async getAll(): Promise<User[]> {
-        const snapshot = await getFirestore().collection("users").get();
-        return snapshot.docs.map(doc => {
-            return {
-                id: doc.id,
-                ...doc.data()
-            };
-        }) as User[];
+        return this.userRepository.getall();
     }
 
     async getById(id: string): Promise<User> {
-        
-        const doc = await getFirestore().collection("users").doc(id).get();
-        if(doc.exists){ 
-            return {
-                id: doc.id,
-                ...doc.data()
-            } as User;
-        } else {
-            throw new NotFoundError("Usuário não encontrado");
+        const user = await this.userRepository.getById(id);
+        if (!user) {
+            throw new NotFoundError("Usuário não encontrado!");
         }
+        return user;
     }
 
     async create(user: User) {
-        await getFirestore().collection("users").add(user);
+        await this.userRepository.create(user);
     }
 
     async update(user: User, id: string) {
-        
-        let docRef = getFirestore().collection("users").doc(id);
-
-        if((await docRef.get()).exists) {
-            await docRef.set({
-                name: user.name,
-                email: user.email
-            });
-
-        } else {
+        const _user = await this.userRepository.getById(id);
+        if(!_user) {
             throw new NotFoundError("Usuário não encontrado!");
         }
+        _user.name = user.name;
+        _user.email = user.email;
+
+        this.userRepository.update(_user);
     }
 
     async delete(id: string) {
-        await getFirestore().collection("users").doc(id).delete();
+        await this.userRepository.delete(id);
     }
 }
