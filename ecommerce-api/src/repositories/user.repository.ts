@@ -31,7 +31,8 @@ export class UserRepository {
     }
 
     async create(user: User) {
-        await this.collection.add(user);
+        delete user.password;
+        await this.collection.doc(user.id).set(user);
     }
 
     async update(user: User) {
