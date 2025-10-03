@@ -1,9 +1,9 @@
 import { Joi } from "celebrate";
 
 export type User = {
-    id: number 
-    name: string 
-    email: string
+    id: string; 
+    name: string;
+    email: string;
 };
 
 export  const userSchema = Joi.object().keys({
