@@ -6,7 +6,7 @@ import { ForbiddenError } from "../errors/forbidden.error";
 
 export const auth = (app: express.Express) => {
     app.use(async (req: Request, res: Response, next: NextFunction) => {
-        if(req.method === "POST" && req.url.startsWith("/auth/login")) {
+        if(req.method === "POST" && req.url.startsWith("/auth/login") || req.url.startsWith("/auth/recovery")) {
             return next();
         }
         
@@ -25,7 +25,7 @@ export const auth = (app: express.Express) => {
                 req.user = user;
                 return next();
             } catch (error) {
-                next(new UnauthorizedError());
+                next(new UnauthorizedError()); 
                 
             }
         }
