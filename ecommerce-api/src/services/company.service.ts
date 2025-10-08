@@ -23,7 +23,7 @@ export class CompanyService {
     }
 
     async create(company: Company) {
-        await this.companyRepository.update(company);
+        await this.companyRepository.create(company);
     }
 
     async update(company: Company, id: string) {

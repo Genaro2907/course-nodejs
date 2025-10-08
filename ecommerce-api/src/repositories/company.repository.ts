@@ -31,7 +31,7 @@ export class CompanyRepository {
     }
 
     async create(company: Company) {
-        await this.collection.doc(company.id!).set(company);
+        await this.collection.add(company);
     }
 
     async update(company: Company) {
