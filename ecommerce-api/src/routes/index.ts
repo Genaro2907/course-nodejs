@@ -1,7 +1,7 @@
 import express from "express";
-import { userRouter } from "./users.router";
-import { authRouter } from "./auth.router";
-import { companiesRouter } from "./companies.router";
+import { userRouter } from "./users.router.js";
+import { authRouter } from "./auth.router.js";
+import { companiesRouter } from "./companies.router.js";
 
 export const routes = (app: express.Express) => {
     app.use(express.json({ limit: "5mb"}));
