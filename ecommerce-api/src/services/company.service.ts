@@ -2,6 +2,7 @@ import { NotFoundError } from "../errors/not-found.error.js";
 import { CompanyRepository } from "../repositories/company.repository.js";
 import { Company } from "../models/company.model.js";
 import { UploadFileService } from "./upload-file.service.js";
+import { ValidationError } from "../errors/validation.error.js";
 
 export class CompanyService {
 
@@ -36,17 +37,38 @@ export class CompanyService {
         if(!_company) {
             throw new NotFoundError("Empresa não encontrada!");
         }
-            _company.logomarca = company.logomarca,
-            _company.cpfCnpj = company.cpfCnpj,
-            _company.razaoSocial = company.razaoSocial,
-            _company.nomeFantasia = company.nomeFantasia,
-            _company.telefone = company.telefone,
-            _company.horarioFuncionamento = company.horarioFuncionamento,
-            _company.endereco = company.endereco,
-            _company.localização = company.localização,
-            _company.taxaEntrega = company.taxaEntrega,
-            _company.ativa = company.ativa,
+
+        if(!this.isValidUrl(company.logomarca)){
+           _company.logomarca = await this.uploadFileService.upload(company.logomarca);
+        }
+        
+        _company.cpfCnpj = company.cpfCnpj,
+        _company.razaoSocial = company.razaoSocial,
+        _company.nomeFantasia = company.nomeFantasia,
+        _company.telefone = company.telefone,
+        _company.horarioFuncionamento = company.horarioFuncionamento,
+        _company.endereco = company.endereco,
+        _company.localização = company.localização,
+        _company.taxaEntrega = company.taxaEntrega,
+        _company.ativa = company.ativa,
 
         await this.companyRepository.update(_company);
     }
-}
+
+    private isValidUrl(urlStr: string): boolean {
+        try {
+            const url = new URL(urlStr);
+            if(url.host !== "firebasestorage.googleapis.com") {
+                throw new ValidationError("URL de origem inválida!");
+            }
+            return true;
+        }catch(err){
+
+            if(err instanceof ValidationError) {
+                throw err;
+            }
+            return false;
+        }
+        
+    }
+} 
