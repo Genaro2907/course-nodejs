@@ -2,7 +2,7 @@ import { NotFoundError } from "../errors/not-found.error.js";
 import { CompanyRepository } from "../repositories/company.repository.js";
 import { Company } from "../models/company.model.js";
 import { UploadFileService } from "./upload-file.service.js";
-import { ValidationError } from "../errors/validation.error.js";
+import { isStorageUrlValid } from "../utils/validation-utils.js";
 
 export class CompanyService {
 
@@ -35,7 +35,7 @@ export class CompanyService {
     async update(company: Company, id: string) {
         const _company = await this.getById(id);
 
-        if(!this.isValidUrl(company.logomarca)){
+        if(!isStorageUrlValid(company.logomarca)){
            _company.logomarca = await this.uploadFileService.upload(company.logomarca);
         }
         
@@ -50,22 +50,5 @@ export class CompanyService {
         _company.ativa = company.ativa,
 
         await this.companyRepository.update(_company);
-    }
-
-    private isValidUrl(urlStr: string): boolean {
-        try {
-            const url = new URL(urlStr);
-            if(url.host !== "firebasestorage.googleapis.com") {
-                throw new ValidationError("URL de origem inválida!");
-            }
-            return true;
-        }catch(err){
-
-            if(err instanceof ValidationError) {
-                throw err;
-            }
-            return false;
-        }
-        
     }
 } 

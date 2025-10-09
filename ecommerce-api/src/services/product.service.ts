@@ -2,15 +2,19 @@ import { NotFoundError } from "../errors/not-found.error.js";
 import { Product } from "../models/product.model.js";
 import { CategoryRepository } from "../repositories/category.repository.js";
 import { ProductRepository } from "../repositories/product.repository.js";
+import { isStorageUrlValid } from "../utils/validation-utils.js";
+import { UploadFileService } from "./upload-file.service.js";
 
 export class ProductService {
 
     private productRepository: ProductRepository;
-    private categoryRepository: CategoryRepository
+    private categoryRepository: CategoryRepository;
+    private uploadFileService: UploadFileService;
 
     constructor() {
         this.productRepository = new ProductRepository();
         this.categoryRepository = new CategoryRepository();
+        this.uploadFileService = new UploadFileService("images/products/");
     }
 
     async getAll(): Promise<Product[]> {
@@ -28,12 +32,19 @@ export class ProductService {
     async create(product: Product) {
         const categoria = await this.getCategoriaById(product.categoria.id!);
         product.categoria = categoria
+        if(product.imagem) {
+            product.imagem = await this.uploadFileService.upload(product.imagem);
+        }
         await this.productRepository.create(product);
     }
 
     async update(product: Product, id: string) {
         const _product = await this.getById(id);
         const categoria = await this.getCategoriaById(product.categoria.id!);
+
+        if(product.imagem && !isStorageUrlValid(product.imagem)) {
+            product.imagem = await this.uploadFileService.upload(product.imagem)
+        }
 
         _product.nome = product.nome;
         _product.descricao = product.descricao;
