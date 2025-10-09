@@ -7,8 +7,8 @@ export class CategoriesController {
     }
 
     static async getById (req: Request, res: Response)  {
-        let userId = req.params.id;
-        res.send(await new CategoryService().getById(userId));
+        let categoryId = req.params.id;
+        res.send(await new CategoryService().getById(categoryId));
     }
  
     static async create (req: Request, res: Response)  {
