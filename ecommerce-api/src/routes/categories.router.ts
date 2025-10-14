@@ -10,4 +10,4 @@ categoriesRouter.get("/categories",asyncHandler( CategoriesController.getAll));
 categoriesRouter.get("/categories/:id", asyncHandler(CategoriesController.getById));
 categoriesRouter.post("/categories",celebrate({ [Segments.BODY]: newCategorySchema }), asyncHandler(CategoriesController.create));
 categoriesRouter.put("/categories/:id",celebrate({ [Segments.BODY]: updateCategorySchema }), asyncHandler(CategoriesController.update));
-categoriesRouter.put("/categories/:id",asyncHandler(CategoriesController.delete));
+categoriesRouter.delete("/categories/:id",asyncHandler(CategoriesController.delete));

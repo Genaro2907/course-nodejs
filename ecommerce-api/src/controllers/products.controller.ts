@@ -6,6 +6,11 @@ export class ProductsController {
         res.send(await new ProductService().getAll());
     }
 
+    static async search (req: Request, res: Response) {
+        const categoriaId = req.query.categoriaId as string;
+        res.send(await new ProductService().search(categoriaId));
+    }
+
     static async getById (req: Request, res: Response)  {
         let productId = req.params.id;
         res.send(await new ProductService().getById(productId));
@@ -22,7 +27,7 @@ export class ProductsController {
         await new ProductService().update(req.body, req.params.id);
         res.send({
             message: "Produto alterado com sucesso!"
-        });
+        }); 
     }
 
     static async delete  (req: Request, res: Response)  {
