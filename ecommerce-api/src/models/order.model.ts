@@ -2,7 +2,7 @@ import { Joi } from "celebrate";
 import { Address, orderAddressSchema } from "./address.model.js";
 import { Company } from "./company.model.js"
 import { Customer, customerSchema } from "./customer.model.js";
-import { OrderItem } from "./order-item.model.js";
+import { OrderItem, orderItemSchema } from "./order-item.model.js";
 import { PaymentMethod } from "./payment-methods.model.js";
 
 export type Order = {
@@ -31,17 +31,22 @@ export const newOrderSchema = Joi.object().keys({
         id: Joi.string().trim().required()
     }).required(),
     cliente: customerSchema.required(),
-    endereco: orderAddressSchema.required(),
+    endereco: Joi.alternatives().conditional(
+        "isEntrega", {
+            is: true, 
+            then: orderAddressSchema.required(), 
+            otherwise: Joi.object().only().allow(null).default(null)
+        }
+    ),
     cpfCnpjCupom: Joi.alternatives().try(
         Joi.string().length(11).required(),
         Joi.string().length(14).required()
-
     ).default(null),
     isEntrega: Joi.boolean().required(),
     formaPagamento: Joi.object().keys({
         id: Joi.string().trim().required()
     }).required(),
     taxaEntrega: Joi.number().min(0).required(),
-    items: Joi.array(),
+    items: Joi.array().min(1).items(orderItemSchema).required(),
     status: Joi.string().only().allow(OrderStatus.pendente).default(OrderStatus.pendente)
-})
+});
