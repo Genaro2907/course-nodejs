@@ -52,5 +52,5 @@ export class OrderService {
     async search(query: QueryParamsOrder): Promise<Order[]> {
        return this.orderRepository.search(query);
     }
-
+ 
 }

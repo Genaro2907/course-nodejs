@@ -1,33 +1,21 @@
 import { CollectionReference, getFirestore } from "firebase-admin/firestore";
-import { PaymentMethod } from "../models/payment-methods.model.js";
+import { PaymentMethod, paymentMethodConverter } from "../models/payment-methods.model.js";
 
 export class PaymentMethodsRepository {
 
-    private collection: CollectionReference;
+    private collection: CollectionReference<PaymentMethod>;
     constructor(){
-        this.collection = getFirestore().collection("payment-methods")
+        this.collection = getFirestore().collection("payment-methods").withConverter(paymentMethodConverter)
     }
 
     async getall(): Promise<PaymentMethod[]> {
         const snapshot = await this.collection.get();
-        return snapshot.docs.map(doc => {
-            return {
-                id: doc.id,
-                ...doc.data()
-            };
-        }) as PaymentMethod[];
+        return snapshot.docs.map(doc => doc.data());
     }
 
     async getById(id: string): Promise<PaymentMethod | null> {
         const doc = await this.collection.doc(id).get();
-        if(doc.exists) { 
-            return {
-                id: doc.id,
-                ...doc.data()
-            } as PaymentMethod;
-        } else {
-            return null;
-        }
+        return  doc.data() ?? null;
     }
 
     async create(paymentmethod: PaymentMethod) {
@@ -35,12 +23,9 @@ export class PaymentMethodsRepository {
     }
 
     async update(paymentmethod: PaymentMethod) {
-        let docRef =  this.collection.doc(paymentmethod.id!);
-        delete paymentmethod.id;
-        await docRef.set({
-            descricao: paymentmethod.descricao,
-            ativa: paymentmethod.ativa
-        });
+        await this.collection
+            .doc(paymentmethod.id)
+            .set(paymentmethod);
     }
 
     async delete(id: string) {

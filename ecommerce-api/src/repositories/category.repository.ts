@@ -1,33 +1,22 @@
 import { CollectionReference, getFirestore } from "firebase-admin/firestore";
-import { Category } from "../models/cotegory.model.js";
+import { Category, categoryConverter } from "../models/cotegory.model.js";
 
 export class CategoryRepository {
 
-    private collection: CollectionReference;
+    private collection: CollectionReference<Category>;
     constructor(){
-        this.collection = getFirestore().collection("categories")
+        this.collection = getFirestore().collection("categories").withConverter(categoryConverter)
     }
 
     async getall(): Promise<Category[]> {
         const snapshot = await this.collection.get();
-        return snapshot.docs.map(doc => {
-            return {
-                id: doc.id,
-                ...doc.data()
-            };
-        }) as Category[];
-    }
+        return snapshot.docs.map(doc => doc.data())
+    };
+    
 
     async getById(id: string): Promise<Category | null> {
         const doc = await this.collection.doc(id).get();
-        if(doc.exists) { 
-            return {
-                id: doc.id,
-                ...doc.data()
-            } as Category;
-        } else {
-            return null;
-        }
+        return doc.data() ?? null;
     }
 
     async create(category: Category) {
@@ -35,12 +24,7 @@ export class CategoryRepository {
     }
 
     async update(category: Category) {
-        let docRef =  this.collection.doc(category.id!);
-        delete category.id;
-        await docRef.set({
-            descricao: category.descricao,
-            ativa: category.ativa
-        });
+        await this.collection.doc(category.id).set(category);
     }
 
     async delete(id: string) {
