@@ -1,7 +1,8 @@
 import { CollectionReference, getFirestore } from "firebase-admin/firestore";
-import { Order, orderConverter, QueryParamsOrder } from "../models/order.model.js";
+import { Order, orderConverter, OrderStatus, QueryParamsOrder } from "../models/order.model.js";
 import dayjs from "dayjs";
 import { OrderItem, orderItemConverter } from "../models/order-item.model.js";
+import { NotFoundError } from "../errors/not-found.error.js";
 
 export class OrderRepository {
     private collection: CollectionReference<Order>;
@@ -54,5 +55,26 @@ export class OrderRepository {
         const pedidoRef =  this.collection.doc(pedidoId);
         const snapshot = await pedidoRef.collection("items").withConverter(orderItemConverter).get();
         return snapshot.docs.map(doc => doc.data());
+    }
+
+    async getbyId(orderId: string): Promise<Order> {
+        const order = (await this.collection.doc(orderId).get()).data();
+
+        if(!order) {
+            throw new NotFoundError("Pedido não encontrado!");
+        }
+        order.items = await this.getItems(orderId);
+        return order;
+    }
+
+    async changeStatus(orderId: string, status: OrderStatus) {
+        await this.collection
+            .withConverter(null)
+            .doc(orderId)
+            .set({
+                status: status
+            }, {
+                merge: true
+            });
     }
 }

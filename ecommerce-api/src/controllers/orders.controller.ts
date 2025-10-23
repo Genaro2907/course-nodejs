@@ -19,5 +19,15 @@ export class OrderController {
     static async getItems(req: Request, res: Response) {
         const items = await new OrderService().getItems(req.params.id);
         res.status(200).send(items);
-    }
+    } 
+
+    static async getbyId(req: Request, res: Response) {
+        const order = await new OrderService().getbyId(req.params.id);
+        res.status(200).send(order);
+    } 
+
+    static async changeStatus(req: Request, res: Response) {
+        await new OrderService().changeStatus(req.params.id, req.body.status);
+        res.status(204).end();
+    } 
 }
