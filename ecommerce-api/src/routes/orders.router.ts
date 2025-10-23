@@ -6,5 +6,6 @@ import expressAsyncHandler from "express-async-handler";
 
 export const orderRoutes = Router();
 
-orderRoutes.post("/orders",celebrate({ [Segments.BODY]: newOrderSchema }), expressAsyncHandler(OrderController.save));
 orderRoutes.get("/orders",celebrate({ [Segments.QUERY]: searchOrderQuerySchema }), expressAsyncHandler(OrderController.search));
+orderRoutes.post("/orders",celebrate({ [Segments.BODY]: newOrderSchema }), expressAsyncHandler(OrderController.save));
+orderRoutes.get("/orders/:id/items", expressAsyncHandler(OrderController.getItems));

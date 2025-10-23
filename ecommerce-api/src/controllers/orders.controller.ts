@@ -15,4 +15,9 @@ export class OrderController {
         const orders = await new OrderService().search(req.query as QueryParamsOrder);
         res.status(200).send(orders);
     }
+
+    static async getItems(req: Request, res: Response) {
+        const items = await new OrderService().getItems(req.params.id);
+        res.status(200).send(items);
+    }
 }
