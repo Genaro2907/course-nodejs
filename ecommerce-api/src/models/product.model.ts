@@ -1,5 +1,5 @@
 import { Joi } from "celebrate";
-import { Category } from "./cotegory.model.js";
+import { Category } from "./category.model.js";
 import { DocumentData, FirestoreDataConverter } from "firebase-admin/firestore";
 
 export class Product {

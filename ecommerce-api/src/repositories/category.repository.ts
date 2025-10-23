@@ -1,5 +1,5 @@
 import { CollectionReference, getFirestore } from "firebase-admin/firestore";
-import { Category, categoryConverter } from "../models/cotegory.model.js";
+import { Category, categoryConverter } from "../models/category.model.js";
 
 export class CategoryRepository {
 

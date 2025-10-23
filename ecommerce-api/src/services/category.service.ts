@@ -1,6 +1,6 @@
 import { NotFoundError } from "../errors/not-found.error.js";
 import { CategoryRepository } from "../repositories/category.repository.js";
-import { Category } from "../models/cotegory.model.js";
+import { Category } from "../models/category.model.js";
 import { ProductRepository } from "../repositories/product.repository.js";
 import { ValidationError } from "../errors/validation.error.js";
 

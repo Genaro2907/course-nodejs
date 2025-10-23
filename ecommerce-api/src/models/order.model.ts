@@ -4,7 +4,7 @@ import { Company } from "./company.model.js"
 import { Customer, customerSchema } from "./customer.model.js";
 import { OrderItem, orderItemSchema } from "./order-item.model.js";
 import { PaymentMethod } from "./payment-methods.model.js";
-import { DocumentData, FirestoreDataConverter, QueryDocumentSnapshot, Timestamp } from "firebase-admin/firestore";
+import { DocumentData, FieldValue, FirestoreDataConverter, QueryDocumentSnapshot, Timestamp } from "firebase-admin/firestore";
 
 export class Order  {
     id: string;
@@ -16,21 +16,35 @@ export class Order  {
     isEntrega: boolean;
     formaPagamento: PaymentMethod;
     taxaEntrega: number;
-    items: OrderItem[];
+    items?: OrderItem[];
     status: OrderStatus;
+    observacoes: string;
+    subtotal: number;
+    total: number;
 
     constructor(data: any) {
         this.id = data.id;
-        this.empresa = data.empresa;
+        this.empresa = new Company(data.empresa);
         this.cliente = data.cliente;
         this.endereco = data.endereco;
         this.cpfCnpjCupom = data.cpfCnpjCupom;
         this.data = data.data instanceof Timestamp ? data.data.toDate() : data.data;
         this.isEntrega = data.isEntrega;
-        this.formaPagamento = data.formaPagamento;
+        this.formaPagamento = new PaymentMethod(data.formaPagamento);
         this.taxaEntrega = data.taxaEntrega;
-        this.items = data.items;
+        this.items = data.items?.map((item: any) => new OrderItem(item));
         this.status = data.status ?? OrderStatus.pendente;
+        this.observacoes = data.observacoes;
+        this.subtotal = data.subtotal;
+        this.total = data.total;
+    }
+
+    getSubtotal(): number {
+        return this.items?.map(item => item.getTotal())
+                .reduce((total, next) => total + next, 0) ?? 0;
+    }
+    getTotal(): number {
+        return this.getSubtotal() + this.taxaEntrega;
     }
 }
 
@@ -71,7 +85,8 @@ export const newOrderSchema = Joi.object().keys({
     }).required(),
     taxaEntrega: Joi.number().min(0).required(),
     items: Joi.array().min(1).items(orderItemSchema).required(),
-    status: Joi.string().only().allow(OrderStatus.pendente).default(OrderStatus.pendente)
+    status: Joi.string().only().allow(OrderStatus.pendente).default(OrderStatus.pendente),
+    observacoes: Joi.string().trim().allow(null).default(null)
 });
 
 export const searchOrderQuerySchema = Joi.object().keys({
@@ -107,33 +122,17 @@ export const orderConverter: FirestoreDataConverter<Order> = {
                 uf: order.endereco.uf,
             },
             cpfCnpjCupom: order.cpfCnpjCupom,
-            data: order.data,
+            data: FieldValue.serverTimestamp(),
             isEntrega: order.isEntrega,
             formaPagamento: {
                 id: order.formaPagamento.id,
                 descricao: order.formaPagamento.descricao
             },
-            taxaEntrega: order.empresa.taxaEntrega,
-            items: order.items.map(item => {
-                return {
-                    produto: {
-                        id: item.produto.id,
-                        nome: item.produto.nome,
-                        descricao: item.produto.descricao,
-                        preco: item.produto.preco,
-                        imagem: item.produto.imagem,
-                        categoria: {
-                            id: item.produto.categoria.id,
-                            descricao: item.produto.categoria.descricao
-                        }
-                    },
-                    qtde: item.qtde,
-                    observacao: item.observacao,
-                }
-            }),
+            taxaEntrega: order.taxaEntrega,
             status: order.status,
-
-            
+            observacoes: order.observacoes,
+            subtotal: order.getSubtotal(),
+            total: order.getTotal()
         }
     },
     fromFirestore: (snapshot: QueryDocumentSnapshot): Order => {

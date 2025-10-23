@@ -1,7 +1,7 @@
 import { Router } from "express";
 import asyncHandler from "express-async-handler"
 import { celebrate, Segments } from "celebrate";
-import { newCategorySchema, updateCategorySchema } from "../models/cotegory.model.js";
+import { newCategorySchema, updateCategorySchema } from "../models/category.model.js";
 import { CategoriesController } from "../controllers/categories.controller.js";
 
 export const categoriesRouter = Router();
