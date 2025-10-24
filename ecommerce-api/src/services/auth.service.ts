@@ -3,7 +3,7 @@ import { EmailAlreadyExistsError } from "../errors/email-already-exists.js";
 import { UnauthorizedError } from "../errors/unauthorized.error.js";
 import { User } from "../models/user.model.js";
 import { FirebaseAuthError, getAuth, UpdateRequest, UserRecord } from "firebase-admin/auth"
-import { signInWithEmailAndPassword, getAuth as getFirebaseAuth, UserCredential, sendPasswordResetEmail } from "firebase/auth"
+import { signInWithEmailAndPassword, getAuth as getFirebaseAuth, UserCredential, sendPasswordResetEmail, signInAnonymously } from "firebase/auth"
 
 export class AuthService {
     async create(user: User): Promise<UserRecord> {
@@ -46,6 +46,11 @@ export class AuthService {
             });
     }
 
+    async signin(): Promise<UserCredential> {
+        return await signInAnonymously(getFirebaseAuth());
+          
+    }   
+
     async delete(id: string) {
         await getAuth().deleteUser(id);
     }
@@ -53,4 +58,4 @@ export class AuthService {
     async recovery(email: string) {
         await sendPasswordResetEmail(getFirebaseAuth(), email);
     }
-}
+} 
