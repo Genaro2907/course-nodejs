@@ -32,23 +32,23 @@ export class CompanyService {
         await this.companyRepository.create(company);
     }
 
-    async update(company: Company, id: string) {
+    async update(id: string, company: Company ) {
         const _company = await this.getById(id);
 
-        if(!isStorageUrlValid(company.logomarca)){
-           _company.logomarca = await this.uploadFileService.upload(company.logomarca);
+        if (!isStorageUrlValid(company.logomarca)) {
+            _company.logomarca = await this.uploadFileService.upload(company.logomarca);
         }
         
-        _company.cpfCnpj = company.cpfCnpj,
-        _company.razaoSocial = company.razaoSocial,
-        _company.nomeFantasia = company.nomeFantasia,
-        _company.telefone = company.telefone,
-        _company.horarioFuncionamento = company.horarioFuncionamento,
-        _company.endereco = company.endereco,
-        _company.localização = company.localização,
-        _company.taxaEntrega = company.taxaEntrega,
-        _company.ativa = company.ativa,
-
+        _company.cpfCnpj = company.cpfCnpj;
+        _company.razaoSocial = company.razaoSocial;
+        _company.nomeFantasia = company.nomeFantasia;
+        _company.telefone = company.telefone;
+        _company.horarioFuncionamento = company.horarioFuncionamento;
+        _company.endereco = company.endereco;
+        _company.localizacao = company.localizacao;
+        _company.taxaEntrega = company.taxaEntrega;
+        _company.ativa = company.ativa;
+        
         await this.companyRepository.update(_company);
     }
 } 

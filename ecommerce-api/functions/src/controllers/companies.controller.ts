@@ -6,7 +6,7 @@ export class CompaniesController {
     }
 
     static async getById (req: Request, res: Response)  {
-        let companyId = req.params.id;
+        const companyId = req.params.id;
         res.send(await new CompanyService().getById(companyId));
     }
  

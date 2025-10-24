@@ -15,9 +15,9 @@ const app = express();
 auth(app)
 routes(app);
 pageNotFoundHandler(app);
-errorHandler(app);
+errorHandler(app); 
 
-export const api = onRequest(app);
+export const api = onRequest(app); 
 // app.listen(3001, () => {
 //     console.log("O Servidor está ativo!!");
 // });

@@ -7,7 +7,7 @@ export class CategoriesController {
     }
 
     static async getById (req: Request, res: Response)  {
-        let categoryId = req.params.id;
+        const categoryId = req.params.id;
         res.send(await new CategoryService().getById(categoryId));
     }
  

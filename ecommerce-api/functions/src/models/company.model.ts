@@ -11,7 +11,7 @@ export class Company  {
     telefone: string;
     horarioFuncionamento: string;
     endereco: string;
-    localização: string;
+    localizacao: string;
     taxaEntrega: number;
     ativa: boolean;
 
@@ -24,7 +24,7 @@ export class Company  {
         this.telefone = data.telefone;
         this.horarioFuncionamento = data.horarioFuncionamento;
         this.endereco = data.endereco;
-        this.localização = data.localização;
+        this.localizacao = data.localizacao;
         this.taxaEntrega = data.taxaEntrega;
         this.ativa = data.ativa ?? true;
     }
@@ -75,7 +75,7 @@ export const companyConverter: FirestoreDataConverter<Company> = {
             telefone: company.telefone,
             horarioFuncionamento: company.horarioFuncionamento,
             endereco: company.endereco,
-            localização: company.localização,
+            localizacao: company.localizacao,
             taxaEntrega: company.taxaEntrega,
             ativa: company.ativa
         };

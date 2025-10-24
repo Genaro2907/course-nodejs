@@ -12,7 +12,7 @@ export class ProductsController {
     }
 
     static async getById (req: Request, res: Response)  {
-        let productId = req.params.id;
+        const productId = req.params.id;
         res.send(await new ProductService().getById(productId));
     }
  

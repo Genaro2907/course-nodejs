@@ -6,7 +6,7 @@ export class UsersController {
     }
 
     static async getById (req: Request, res: Response)  {
-        let userId = req.params.id;
+        const userId = req.params.id;
         res.send(await new UserService().getById(userId));
     }
  
