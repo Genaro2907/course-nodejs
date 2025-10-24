@@ -18,7 +18,8 @@ export class CompaniesController {
     }
 
     static async update (req: Request, res: Response) {
-        await new CompanyService().update(req.body, req.params.id);
+        const id = req.params.id
+        await new CompanyService().update(id, req.body);
         res.send({
             message: "Empresa alterada com sucesso!"
         });

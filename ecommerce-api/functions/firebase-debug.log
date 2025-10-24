@@ -1,0 +1,102 @@
+[debug] [2025-10-24T19:18:27.008Z] ----------------------------------------------------------------------
+[debug] [2025-10-24T19:18:27.011Z] Command:       C:\nodejs\node.exe C:\nodejs\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --only functions
+[debug] [2025-10-24T19:18:27.012Z] CLI Version:   14.22.0
+[debug] [2025-10-24T19:18:27.012Z] Platform:      win32
+[debug] [2025-10-24T19:18:27.012Z] Node Version:  v22.20.0
+[debug] [2025-10-24T19:18:27.012Z] Time:          Fri Oct 24 2025 16:18:27 GMT-0300 (Horário Padrão de Brasília)
+[debug] [2025-10-24T19:18:27.012Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-10-24T19:18:27.270Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-10-24T19:18:27.270Z] > authorizing via signed-in user (g.genaro.contato@gmail.com)
+[info] i  emulators: Starting emulators: functions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions"}}
+[debug] [2025-10-24T19:18:27.280Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-10-24T19:18:27.280Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2025-10-24T19:18:27.285Z] Emulator locator file path: C:\Users\GABRIE~1\AppData\Local\Temp\hub-e-commerce-3a1e7.json
+[debug] [2025-10-24T19:18:27.285Z] [hub] writing locator at C:\Users\GABRIE~1\AppData\Local\Temp\hub-e-commerce-3a1e7.json
+[debug] [2025-10-24T19:18:27.308Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-10-24T19:18:27.309Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-10-24T19:18:27.309Z] [tasks] Cloud Tasks Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-10-24T19:18:27.309Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, auth, firestore, database, hosting, pubsub, storage, dataconnect {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mapphosting, auth, firestore, database, hosting, pubsub, storage, dataconnect\u001b[22m"}}
+[debug] [2025-10-24T19:18:27.323Z] defaultcredentials: writing to file C:\Users\Gabriel Genaro\AppData\Roaming\firebase\g_genaro.contato_gmail.com_application_default_credentials.json
+[debug] [2025-10-24T19:18:27.325Z] Setting GAC to C:\Users\Gabriel Genaro\AppData\Roaming\firebase\g_genaro.contato_gmail.com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\Gabriel Genaro\\AppData\\Roaming\\firebase\\g_genaro.contato_gmail.com_application_default_credentials.json"}}
+[debug] [2025-10-24T19:18:27.326Z] Checked if tokens are valid: true, expires at: 1761336053569
+[debug] [2025-10-24T19:18:27.326Z] Checked if tokens are valid: true, expires at: 1761336053569
+[debug] [2025-10-24T19:18:27.328Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/e-commerce-3a1e7/adminSdkConfig [none]
+[debug] [2025-10-24T19:18:28.875Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/e-commerce-3a1e7/adminSdkConfig 200
+[debug] [2025-10-24T19:18:28.875Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/e-commerce-3a1e7/adminSdkConfig {"projectId":"e-commerce-3a1e7","storageBucket":"e-commerce-3a1e7.firebasestorage.app"}
+[info] i  functions: Watching "C:\Users\Gabriel Genaro\Desktop\Projeto-Curso\ecommerce-api\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\Gabriel Genaro\\Desktop\\Projeto-Curso\\ecommerce-api\\functions\" for Cloud Functions..."}}
+[debug] [2025-10-24T19:18:28.909Z] Validating nodejs source
+[debug] [2025-10-24T19:18:31.417Z] > [functions] package.json contents: {
+  "name": "ecommerce-api",
+  "version": "1.0.0",
+  "main": "./lib/index.js",
+  "type": "module",
+  "scripts": {
+    "lint": "npx eslint .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "start": "firebase emulators:start --only functions",
+    "deploy": "npm run lint && npm run build && firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "celebrate": "^15.0.3",
+    "dayjs": "^1.11.18",
+    "express": "^5.1.0",
+    "express-async-handler": "^1.2.0",
+    "file-type": "^21.0.0",
+    "firebase": "^12.3.0",
+    "firebase-admin": "^13.5.0",
+    "firebase-functions": "^6.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.38.0",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.6.1",
+    "eslint": "^9.38.0",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.2"
+  },
+  "private": true
+}
+[debug] [2025-10-24T19:18:31.417Z] Building nodejs source
+[debug] [2025-10-24T19:18:31.417Z] Failed to find version of module node: reached end of search path C:\Users\Gabriel Genaro\Desktop\Projeto-Curso\ecommerce-api\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2025-10-24T19:18:31.422Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-10-24T19:18:31.433Z] Found firebase-functions binary at 'C:\Users\Gabriel Genaro\Desktop\Projeto-Curso\ecommerce-api\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8676
+
+[debug] [2025-10-24T19:18:33.126Z] Got response from /__/functions.yaml {"endpoints":{"api":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"api"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] +  functions: Loaded functions definitions from source: api. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: api."}}
+[info] +  functions[us-central1-api]: http function initialized (http://127.0.0.1:5001/e-commerce-3a1e7/us-central1/api). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/e-commerce-3a1e7/us-central1/api)."}}
+[debug] [2025-10-24T19:18:37.186Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌───────────┬────────────────┬─────────────────────────────────┐
+│ Emulator  │ Host:Port      │ View in Emulator UI             │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Functions │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions │
+└───────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub host: 127.0.0.1 port: 4400
+  Other reserved ports: 4500
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2025-10-24T19:28:51.103Z] [work-queue] {"queuedWork":["/e-commerce-3a1e7/us-central1/api/auth/login-2025-10-24T19:28:51.103Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2025-10-24T19:28:51.104Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/e-commerce-3a1e7/us-central1/api/auth/login-2025-10-24T19:28:51.103Z"],"workRunningCount":1}
+[debug] [2025-10-24T19:28:51.104Z] Accepted request POST /e-commerce-3a1e7/us-central1/api/auth/login --> us-central1-api
+[debug] [2025-10-24T19:28:51.107Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2025-10-24T19:28:51.107Z] [functions] Got req.url=/e-commerce-3a1e7/us-central1/api/auth/login, mapping to path=/auth/login {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/e-commerce-3a1e7/us-central1/api/auth/login, mapping to path=/auth/login"}}
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2025-10-24T19:28:51.122Z] [worker-pool] addWorker(us-central1-api) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-api)"}}
+[debug] [2025-10-24T19:28:51.124Z] [worker-pool] Adding worker with key us-central1-api, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-api, total=1"}}

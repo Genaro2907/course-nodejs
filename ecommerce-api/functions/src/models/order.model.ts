@@ -114,7 +114,7 @@ export const orderConverter: FirestoreDataConverter<Order> = {
                 nomeFantasia: order.empresa.nomeFantasia,
                 telefone: order.empresa.telefone,
                 endereco: order.empresa.endereco,
-                localizacao: order.empresa.localização
+                localizacao: order.empresa.localizacao
             },
             cliente: {
                 nome: order.cliente.nome,
